@@ -9,7 +9,7 @@
     <link rel="icon" type="image/svg+xml" href="./favicon.svg" />
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500;600&family=Instrument+Serif:ital@0;1&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet" />
-    <link rel="stylesheet" href="./styles.css?v=4" />
+    <link rel="stylesheet" href="./styles.css?v=5" />
   </head>
   <body>
     <canvas id="starfield" aria-hidden="true"></canvas>
@@ -67,7 +67,9 @@
                 <p>Composite pass rate across manifest, window, fleet, and physics gates. Higher is safer to commit.</p>
               </div>
             </header>
-            <canvas id="chartBars" height="300"></canvas>
+            <div class="chart-stage chart-stage--bars">
+              <canvas id="chartBars" aria-hidden="true"></canvas>
+            </div>
             <footer class="panel-foot" id="barFoot">4 scenarios · 18 gates each · synthetic physics</footer>
           </article>
 
@@ -78,7 +80,9 @@
                 <p>Propellant loaded per tanker launch for the selected scenario. Flattening means the chain is stalling.</p>
               </div>
             </header>
-            <canvas id="chartLine" height="260"></canvas>
+            <div class="chart-stage chart-stage--line">
+              <canvas id="chartLine" aria-hidden="true"></canvas>
+            </div>
             <footer class="panel-foot" id="lineFoot">14 tanker launches · 2100 t target</footer>
           </article>
         </div>
@@ -92,7 +96,9 @@
               </div>
               <span class="data-pill" id="heatPill">4×4 cells</span>
             </header>
-            <canvas id="chartHeat" height="320"></canvas>
+            <div class="chart-stage chart-stage--heat">
+              <canvas id="chartHeat" aria-hidden="true"></canvas>
+            </div>
             <footer class="panel-foot heat-legend">
               <span>OK</span>
               <div class="legend-bar"></div>
@@ -251,6 +257,6 @@ mars-window run \
       <span>Independent demo · enaguthi.com</span>
     </footer>
 
-    <script type="module" src="./app.js?v=4"></script>
+    <script type="module" src="./app.js?v=5"></script>
   </body>
 </html>

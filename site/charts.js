@@ -17,21 +17,24 @@ function c(key) {
   return COLORS[key][theme()];
 }
 
-function setupCanvas(canvas, height = 280) {
+function setupCanvas(canvas) {
+  const stage = canvas.parentElement;
   const dpr = window.devicePixelRatio || 1;
-  const rect = canvas.parentElement.getBoundingClientRect();
-  const w = Math.max(Math.floor(rect.width), 1);
-  canvas.width = Math.floor(w * dpr);
-  canvas.height = Math.floor(height * dpr);
-  canvas.style.width = "100%";
-  canvas.style.height = `${height}px`;
+  const w = Math.max(stage.clientWidth, 1);
+  const h = Math.max(stage.clientHeight, 1);
+  const bw = Math.floor(w * dpr);
+  const bh = Math.floor(h * dpr);
+  canvas.width = bw;
+  canvas.height = bh;
+  canvas.style.width = `${w}px`;
+  canvas.style.height = `${h}px`;
   const ctx = canvas.getContext("2d");
   ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
-  return { ctx, w, h: height };
+  return { ctx, w, h };
 }
 
 export function drawClosureBars(canvas, scenarios) {
-  const { ctx, w, h } = setupCanvas(canvas, 300);
+  const { ctx, w, h } = setupCanvas(canvas);
   const pad = { l: 48, r: 16, t: 24, b: 72 };
   const sorted = [...scenarios].sort((a, b) => b.closureScore - a.closureScore);
   const n = sorted.length;
@@ -83,7 +86,7 @@ export function drawClosureBars(canvas, scenarios) {
 }
 
 export function drawFillLine(canvas, scenario) {
-  const { ctx, w, h } = setupCanvas(canvas, 260);
+  const { ctx, w, h } = setupCanvas(canvas);
   const pad = { l: 44, r: 16, t: 24, b: 40 };
   const data = scenario.fillCurve;
   const max = Math.max(...data, 2100);
@@ -150,7 +153,7 @@ function cellPct(sev) {
 }
 
 export function drawHeatmap(canvas, scenarios, groups) {
-  const { ctx, w, h } = setupCanvas(canvas, 320);
+  const { ctx, w, h } = setupCanvas(canvas);
   const pad = { l: 130, r: 16, t: 36, b: 56 };
   const cellH = (h - pad.t - pad.b) / scenarios.length;
   const cellW = (w - pad.l - pad.r) / groups.length;

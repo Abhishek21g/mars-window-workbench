@@ -1,5 +1,5 @@
-import { SCENARIOS, GATE_GROUPS, ALL_GATES, STATS } from "./data.js?v=4";
-import { redrawAll } from "./charts.js?v=4";
+import { SCENARIOS, GATE_GROUPS, ALL_GATES, STATS } from "./data.js?v=5";
+import { redrawAll, drawFillLine } from "./charts.js?v=5";
 
 const T0 = new Date("2028-11-15T12:00:00Z");
 const PROP_MAX = 2100;
@@ -146,7 +146,8 @@ function selectScenario(id) {
   document.getElementById("liveScenarioLabel").textContent =
     `${activeScenario.title} · 2028 short-class`;
   syncLiveFromScenario();
-  redrawAll(SCENARIOS, activeScenario, GATE_GROUPS);
+  const line = document.getElementById("chartLine");
+  if (line) drawFillLine(line, activeScenario);
 }
 
 function syncLiveFromScenario() {
