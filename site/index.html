@@ -1,174 +1,257 @@
 <!doctype html>
-<html lang="en">
+<html lang="en" data-theme="dark">
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <meta name="description" content="Mars Window Commit Workbench. GO/NO-GO receipts for Starship fleet + Mars cargo against Earth-Mars transfer windows." />
+    <meta name="description" content="Mars Window Commit Workbench. Benchmark window closure for Starship fleet + Mars cargo manifests." />
     <meta property="og:url" content="https://enaguthi.com/mars-window/site/" />
-    <title>Mars Window Commit Workbench</title>
+    <title>Mars Window Commit</title>
     <link rel="icon" type="image/svg+xml" href="./favicon.svg" />
     <link rel="preconnect" href="https://fonts.googleapis.com" />
-    <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500;600&family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet" />
-    <link rel="stylesheet" href="./styles.css?v=2" />
+    <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500;600&family=Instrument+Serif:ital@0;1&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet" />
+    <link rel="stylesheet" href="./styles.css?v=3" />
   </head>
   <body>
     <canvas id="starfield" aria-hidden="true"></canvas>
 
-    <header class="site-header">
-      <a class="brand" href="#top"><span class="brand-mark">MW</span><span>Mars Window Commit</span></a>
-      <nav class="nav">
-        <a href="#sim">Live sim</a>
-        <a href="#mission">Mission</a>
-        <a href="https://github.com/Abhishek21g/mars-window-workbench">GitHub</a>
+    <header class="app-header">
+      <a class="brand" href="#" id="brandHome">
+        <span class="brand-mark" aria-hidden="true">◎</span>
+        <span class="brand-text">Mars Window Commit</span>
+      </a>
+      <nav class="pill-nav" aria-label="Primary">
+        <button type="button" class="pill active" data-view="dashboard">Dashboard</button>
+        <button type="button" class="pill" data-view="live">Live Commit</button>
+        <button type="button" class="pill" data-view="vision">The Vision</button>
       </nav>
-      <a class="header-action" href="https://github.com/Abhishek21g/mars-window-workbench">View GitHub</a>
+      <div class="header-actions">
+        <button type="button" class="icon-btn" id="themeToggle" aria-label="Toggle theme">◐</button>
+        <a class="gh-link" href="https://github.com/Abhishek21g/mars-window-workbench">GitHub</a>
+      </div>
     </header>
 
-    <main id="top">
-      <section class="hero section-shell">
-        <div class="hero-copy">
-          <p class="eyebrow">Multiplanetary · independent demo · not affiliated with SpaceX</p>
-          <h1>Commit the Mars window.<br />Or lose it for 26 months.</h1>
-          <p>
-            One synodic window. Six Starships. Four crew. 85 tonnes of cargo.
-            <strong>14 tanker launches</strong> to fill LEO before T-0.
-            Does the math close before you burn the window?
-          </p>
-          <div class="hero-actions">
-            <button class="button primary pulse" id="runSim" type="button">Simulate window commit</button>
-            <a class="button secondary" href="https://github.com/Abhishek21g/mars-window-workbench">GitHub</a>
+    <main>
+      <!-- DASHBOARD -->
+      <section id="view-dashboard" class="view active">
+        <div class="hero-grid">
+          <div class="hero-copy">
+            <h1>Mars Window Commit</h1>
+            <p class="hero-sub">Benchmarking multiplanetary window closure</p>
+            <p class="hero-desc">
+              Independent evaluation of whether Starship fleet manifests, tanker chains, and Mars cargo
+              budgets close before a synodic transfer window burns. Higher closure scores mean the
+              mission can commit. Lower scores mean HOLD or NO-GO.
+            </p>
           </div>
-          <dl class="proof-grid">
-            <div><dt id="countdownDays">--</dt><dd>days to T-0</dd></div>
-            <div><dt>18</dt><dd>commit gates</dd></div>
-            <div><dt>2100t</dt><dd>LEO propellant</dd></div>
-          </dl>
+          <div class="stat-grid">
+            <div class="stat-card"><span class="stat-label">Windows</span><strong id="statWindows">4</strong></div>
+            <div class="stat-card"><span class="stat-label">Scenarios</span><strong id="statScenarios">4</strong></div>
+            <div class="stat-card"><span class="stat-label">Gates</span><strong id="statGates">18</strong></div>
+            <div class="stat-card"><span class="stat-label">Runs</span><strong id="statRuns">1,247</strong></div>
+          </div>
         </div>
 
-        <div class="orbit-stage" aria-label="Earth-Mars transfer visualization">
-          <svg class="orbit-svg" viewBox="0 0 400 280" role="img">
-            <defs>
-              <radialGradient id="earthGlow"><stop offset="0%" stop-color="#4a90d9"/><stop offset="100%" stop-color="#1a3a66"/></radialGradient>
-              <radialGradient id="marsGlow"><stop offset="0%" stop-color="#e85d3a"/><stop offset="100%" stop-color="#8b2500"/></radialGradient>
-              <filter id="shipGlow"><feGaussianBlur stdDeviation="2" result="b"/><feMerge><feMergeNode in="b"/><feMergeNode in="SourceGraphic"/></feMerge></filter>
-            </defs>
-            <ellipse class="orbit-track" cx="200" cy="140" rx="150" ry="90" fill="none"/>
-            <circle cx="70" cy="140" r="22" fill="url(#earthGlow)"/>
-            <text x="70" y="175" class="orbit-label">Earth</text>
-            <circle cx="330" cy="140" r="14" fill="url(#marsGlow)"/>
-            <text x="330" y="175" class="orbit-label">Mars</text>
-            <path id="transferArc" class="transfer-arc" d="M 92 140 Q 200 40 318 140" fill="none"/>
-            <g id="starshipIcon" filter="url(#shipGlow)">
-              <polygon points="0,-8 6,6 -6,6" fill="#f0c674"/>
-            </g>
-          </svg>
-          <div class="orbit-hud">
-            <div class="hud-row"><span>Phase</span><strong id="hudPhase">STANDBY</strong></div>
-            <div class="hud-row"><span>Transfer</span><strong id="hudTransfer">0 / 210 d</strong></div>
-            <div class="hud-row"><span>LEO fill</span><strong id="hudProp">0 / 2100 t</strong></div>
+        <div class="panel filter-panel">
+          <div class="filter-head">
+            <span class="filter-label">Active scenario</span>
+            <p class="filter-hint" id="filterHint">Artemis Pathfinder · 2028 short-class · six-ship tanker chain</p>
           </div>
+          <div class="seg-control" id="scenarioTabs" role="tablist"></div>
         </div>
+
+        <div class="chart-grid">
+          <article class="panel chart-panel">
+            <header class="panel-head">
+              <div>
+                <h2>Window closure score</h2>
+                <p>Composite pass rate across manifest, window, fleet, and physics gates. Higher is safer to commit.</p>
+              </div>
+            </header>
+            <canvas id="chartBars" height="300"></canvas>
+            <footer class="panel-foot" id="barFoot">4 scenarios · 18 gates each · synthetic physics</footer>
+          </article>
+
+          <article class="panel chart-panel">
+            <header class="panel-head">
+              <div>
+                <h2>LEO depot trajectory</h2>
+                <p>Propellant loaded per tanker launch for the selected scenario. Flattening means the chain is stalling.</p>
+              </div>
+            </header>
+            <canvas id="chartLine" height="260"></canvas>
+            <footer class="panel-foot" id="lineFoot">14 tanker launches · 2100 t target</footer>
+          </article>
+        </div>
+
+        <div class="chart-grid">
+          <article class="panel chart-panel wide-heat">
+            <header class="panel-head">
+              <div>
+                <h2>Gate stress heatmap</h2>
+                <p>Severity by scenario and gate group. Greener cells pass. Redder cells block window commit.</p>
+              </div>
+              <span class="data-pill" id="heatPill">4×4 cells</span>
+            </header>
+            <canvas id="chartHeat" height="320"></canvas>
+            <footer class="panel-foot heat-legend">
+              <span>OK</span>
+              <div class="legend-bar"></div>
+              <span>FAIL</span>
+            </footer>
+          </article>
+
+          <article class="panel chart-panel">
+            <header class="panel-head">
+              <div>
+                <h2>Scenario risk rank</h2>
+                <p>Scenarios ordered by closure failure rate. Top entries defeat the most manifests.</p>
+              </div>
+            </header>
+            <div class="ranked-list" id="rankedList"></div>
+            <footer class="panel-foot">Avg across all gate groups · synthetic receipts</footer>
+          </article>
+        </div>
+
+        <article class="panel library-panel">
+          <header class="panel-head">
+            <div>
+              <h2>Scenario library</h2>
+              <p>Open any manifest in Live Commit to run the full window simulation and export a receipt.</p>
+            </div>
+          </header>
+          <div class="library-list" id="libraryList"></div>
+        </article>
       </section>
 
-      <section class="section-shell sim-section" id="sim">
-        <div class="sim-header">
+      <!-- LIVE COMMIT -->
+      <section id="view-live" class="view">
+        <div class="live-hero">
           <div>
-            <h2>Mission control</h2>
-            <p class="sim-sub">Artemis Pathfinder · 2028 short-class window · 6-ship tanker chain</p>
+            <h2>Live window commit</h2>
+            <p class="live-sub" id="liveScenarioLabel">Artemis Pathfinder · 2028 short-class</p>
           </div>
-          <div class="verdict-pill badge hold" id="heroBadge">STANDBY</div>
+          <div class="verdict-pill badge STANDBY" id="heroBadge">STANDBY</div>
         </div>
 
-        <div class="sim-grid">
-          <div class="card gauge-card">
-            <h3>LEO depot fill</h3>
-            <div class="gauge-wrap">
-              <svg viewBox="0 0 120 120" class="gauge-svg">
-                <circle cx="60" cy="60" r="52" class="gauge-bg"/>
-                <circle cx="60" cy="60" r="52" class="gauge-fill" id="propGauge"/>
-              </svg>
-              <div class="gauge-center">
-                <span id="propPct">0%</span>
-                <small>propellant</small>
+        <div class="live-layout">
+          <div class="orbit-stage">
+            <svg class="orbit-svg" viewBox="0 0 400 280" aria-hidden="true">
+              <defs>
+                <radialGradient id="earthGlow"><stop offset="0%" stop-color="#4a90d9"/><stop offset="100%" stop-color="#1a3a66"/></radialGradient>
+                <radialGradient id="marsGlow"><stop offset="0%" stop-color="#e85d3a"/><stop offset="100%" stop-color="#8b2500"/></radialGradient>
+                <filter id="shipGlow"><feGaussianBlur stdDeviation="2"/><feMerge><feMergeNode/><feMergeNode in="SourceGraphic"/></feMerge></filter>
+              </defs>
+              <ellipse class="orbit-track" cx="200" cy="140" rx="150" ry="90" fill="none"/>
+              <circle cx="70" cy="140" r="22" fill="url(#earthGlow)"/>
+              <text x="70" y="175" class="orbit-label">Earth</text>
+              <circle cx="330" cy="140" r="14" fill="url(#marsGlow)"/>
+              <text x="330" y="175" class="orbit-label">Mars</text>
+              <path id="transferArc" class="transfer-arc" d="M 92 140 Q 200 40 318 140" fill="none"/>
+              <g id="starshipIcon" filter="url(#shipGlow)"><polygon points="0,-8 6,6 -6,6" fill="var(--gold)"/></g>
+            </svg>
+            <div class="orbit-hud">
+              <div class="hud-row"><span>Phase</span><strong id="hudPhase">STANDBY</strong></div>
+              <div class="hud-row"><span>Transfer</span><strong id="hudTransfer">0 / 210 d</strong></div>
+              <div class="hud-row"><span>LEO fill</span><strong id="hudProp">0 / 2100 t</strong></div>
+              <div class="hud-row"><span>T-0</span><strong id="countdownDays">847 d</strong></div>
+            </div>
+          </div>
+
+          <div class="live-metrics">
+            <div class="panel gauge-card">
+              <h3>LEO depot</h3>
+              <div class="gauge-wrap">
+                <svg viewBox="0 0 120 120"><circle cx="60" cy="60" r="52" class="gauge-bg"/><circle cx="60" cy="60" r="52" class="gauge-fill" id="propGauge"/></svg>
+                <div class="gauge-center"><span id="propPct">0%</span><small>propellant</small></div>
               </div>
+              <p class="gauge-caption" id="propCaption">Awaiting tanker chain</p>
             </div>
-            <p class="gauge-caption" id="propCaption">Awaiting tanker chain...</p>
-          </div>
-
-          <div class="card gauge-card">
-            <h3>TMI margin</h3>
-            <div class="gauge-wrap">
-              <svg viewBox="0 0 120 120" class="gauge-svg">
-                <circle cx="60" cy="60" r="52" class="gauge-bg"/>
-                <circle cx="60" cy="60" r="52" class="gauge-fill tmi" id="tmiGauge"/>
-              </svg>
-              <div class="gauge-center">
-                <span id="tmiVal">0</span>
-                <small>m/s margin</small>
+            <div class="panel gauge-card">
+              <h3>TMI margin</h3>
+              <div class="gauge-wrap">
+                <svg viewBox="0 0 120 120"><circle cx="60" cy="60" r="52" class="gauge-bg"/><circle cx="60" cy="60" r="52" class="gauge-fill tmi" id="tmiGauge"/></svg>
+                <div class="gauge-center"><span id="tmiVal">0</span><small>m/s</small></div>
               </div>
+              <p class="gauge-caption" id="tmiCaption">Threshold 120 m/s</p>
             </div>
-            <p class="gauge-caption" id="tmiCaption">Min threshold: 120 m/s</p>
-          </div>
-
-          <div class="card verdict-card">
-            <h3>Window decision</h3>
-            <div class="verdict-ring" id="verdictRing">
-              <div class="verdict" id="verdict">...</div>
+            <div class="panel verdict-card">
+              <h3>Decision</h3>
+              <div class="verdict-ring" id="verdictRing"><div class="verdict" id="verdict">...</div></div>
+              <p id="scenarioLabel">Run simulation</p>
+              <dl class="counts" id="counts"></dl>
             </div>
-            <p id="scenarioLabel">Press simulate to run gates</p>
-            <dl class="counts" id="counts"></dl>
-          </div>
-
-          <div class="card wide gate-board">
-            <h3>Commit gates <span class="gate-progress" id="gateProgress">0 / 18</span></h3>
-            <div class="gate-grid" id="gateGrid"></div>
-          </div>
-
-          <div class="card wide timeline-card">
-            <h3>Commit timeline</h3>
-            <div class="timeline" id="timeline"></div>
           </div>
         </div>
 
-        <div class="sim-actions">
-          <button class="button primary" id="runSim2" type="button">Run simulation</button>
+        <div class="panel gate-board">
+          <header class="panel-head inline">
+            <h2>Commit gates <span class="gate-progress" id="gateProgress">0 / 18</span></h2>
+            <button type="button" class="button primary" id="runSim">Simulate window commit</button>
+          </header>
+          <div class="gate-grid" id="gateGrid"></div>
+        </div>
+
+        <div class="panel">
+          <h3 class="timeline-title">Commit timeline</h3>
+          <div class="timeline" id="timeline"></div>
+        </div>
+
+        <div class="live-actions">
           <label class="button secondary">Upload receipt<input type="file" id="fileInput" accept=".json" hidden /></label>
+          <a class="button secondary" href="https://github.com/Abhishek21g/mars-window-workbench">Clone CLI repo</a>
         </div>
       </section>
 
-      <section class="section-shell" id="mission">
-        <h2>The next SpaceX question</h2>
-        <div class="cards">
-          <article>
-            <h3>Mission</h3>
-            <p>Make humanity multiplanetary. Starship, Mars cargo, synodic windows, fleet-scale propellant choreography.</p>
+      <!-- VISION -->
+      <section id="view-vision" class="view">
+        <div class="vision-hero panel">
+          <h2>The next SpaceX question</h2>
+          <p class="vision-lede">
+            SpaceX is not selling launches. They are selling a <strong>commit decision</strong>:
+            can humanity afford to close this Mars window with hardware that exists today?
+          </p>
+        </div>
+        <div class="vision-grid">
+          <article class="panel">
+            <h3>What we benchmark</h3>
+            <ul>
+              <li>Manifest mass, volume, crew, return propellant</li>
+              <li>Synodic departure window and transfer envelope</li>
+              <li>Tanker chain LEO fill timeline</li>
+              <li>TMI margin, EDL mass, surface power, consumables</li>
+            </ul>
           </article>
-          <article>
-            <h3>Impossible part</h3>
-            <p>You cannot run real mission design on a laptop. You <em>can</em> mock the commit: does this window close?</p>
+          <article class="panel">
+            <h3>What you get</h3>
+            <ul>
+              <li><code>mars-window plan|run|doctor|report</code></li>
+              <li>Receipt JSON in <code>out/receipts/&lt;run-id&gt;/</code></li>
+              <li>24 pytest on gate logic</li>
+              <li>Mock mode: no secrets, no proprietary sims</li>
+            </ul>
           </article>
-          <article>
-            <h3>This workbench</h3>
-            <p><code>plan → run → doctor → report</code> with auditable GO / HOLD / NO-GO receipts before the window burns.</p>
+          <article class="panel">
+            <h3>Honesty</h3>
+            <p>Synthetic physics envelopes only. Not affiliated with SpaceX. Inspired by public multiplanetary mission statements and receipt discipline from fprime-preflight / Tinker Workbench.</p>
           </article>
         </div>
-      </section>
-
-      <section class="section-shell" id="cli">
-        <h2>CLI</h2>
-        <pre class="cli-block"><code>pip install git+https://github.com/Abhishek21g/mars-window-workbench
+        <article class="panel cli-panel">
+          <h3>Install</h3>
+          <pre class="cli-block"><code>pip install git+https://github.com/Abhishek21g/mars-window-workbench
 
 mars-window run \
   --manifest scenarios/artemis-pathfinder.yaml \
   --window windows/2028-short.yaml \
   --fleet fleets/six-tanker-chain.yaml</code></pre>
+        </article>
       </section>
     </main>
 
-    <footer class="section-shell footer">
-      <p>Synthetic physics only. Not affiliated with SpaceX.</p>
-      <a href="https://enaguthi.com/">enaguthi.com</a>
+    <footer class="app-footer">
+      <span>Independent demo · enaguthi.com</span>
+      <span>Reference bar: <a href="https://trust-me-bro-mu.vercel.app/" target="_blank" rel="noopener">Trust Me Bro</a> quality</span>
     </footer>
-    <script src="./app.js?v=2" defer></script>
+
+    <script type="module" src="./app.js?v=3"></script>
   </body>
 </html>
