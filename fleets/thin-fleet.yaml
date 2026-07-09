@@ -1,0 +1,12 @@
+fleet_id: thin-fleet
+starship_count: 1
+tanker_count: 3
+leo_depot_capacity_t: 500
+payload_mass_cap_kg: 100000
+payload_volume_cap_m3: 1100
+crew_cap: 6
+edl_mass_cap_kg: 140000
+min_tmi_margin_mps: 120
+min_return_propellant_fraction: 0.15
+tanker_t_per_launch: 150
+days_per_tanker_launch: 3.5

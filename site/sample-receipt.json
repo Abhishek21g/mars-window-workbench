@@ -1,0 +1,75 @@
+{
+  "run_id": "09ffeb393dcf",
+  "mission_id": "artemis-pathfinder",
+  "window_id": "2028-short-class",
+  "decision": "HOLD",
+  "findings": [
+    {
+      "gate_id": "W03",
+      "category": "window",
+      "severity": "WARN",
+      "action": "HOLD",
+      "message": "Surface stay risks missing next synodic return window",
+      "observed": 480.0,
+      "threshold": 390.0
+    },
+    {
+      "gate_id": "F02",
+      "category": "fleet",
+      "severity": "WARN",
+      "action": "HOLD",
+      "message": "LEO depot fill timeline exceeds pre-window margin",
+      "observed": 49.0,
+      "threshold": 45.0
+    },
+    {
+      "gate_id": "P04",
+      "category": "physics",
+      "severity": "FAIL",
+      "action": "HOLD",
+      "message": "Life-support consumables cannot cover minimum stay",
+      "observed": 62.5,
+      "threshold": 480.0
+    },
+    {
+      "gate_id": "R02",
+      "category": "rollup",
+      "severity": "WARN",
+      "action": "HOLD",
+      "message": "Window commit HOLD \u2014 margins require human review",
+      "observed": null,
+      "threshold": null
+    }
+  ],
+  "manifest": {
+    "crew_count": 4,
+    "cargo_mass_kg": 85000.0,
+    "life_support_days": 540.0
+  },
+  "window": {
+    "departure_utc": "2028-11-15T12:00:00Z",
+    "transfer_days": 210.0,
+    "tmi_delta_v_mps": 3800.0
+  },
+  "fleet": {
+    "starship_count": 6,
+    "tanker_count": 14
+  },
+  "simulation": {
+    "leo_propellant_t": 2100.0,
+    "depot_fill_days": 49.0,
+    "landed_mass_kg": 127380.0,
+    "tmi_margin_mps": 123.67,
+    "surface_power_margin_days": 960.0,
+    "consumable_margin_days": 62.5
+  },
+  "summary": {
+    "generated_at": "2026-07-09T11:18:52.713196+00:00",
+    "fleet_id": "six-starship-tanker-chain",
+    "gate_counts": {
+      "PASS": 0,
+      "WARN": 3,
+      "FAIL": 1
+    }
+  }
+}

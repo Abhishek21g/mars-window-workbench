@@ -1,0 +1,9 @@
+mission_id: artemis-pathfinder
+crew_count: 4
+cargo_mass_kg: 85000
+cargo_volume_m3: 780
+life_support_days: 540
+surface_power_kw: 12.0
+isru_water_kg_per_day: 8.0
+return_propellant_fraction: 0.18
+min_surface_days: 480

@@ -1,0 +1,124 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="description" content="Mars Window Commit Workbench — GO/NO-GO receipts for Starship fleet + Mars cargo against Earth-Mars transfer windows." />
+    <meta property="og:url" content="https://enaguthi.com/mars-window/site/" />
+    <title>Mars Window Commit Workbench</title>
+    <link rel="icon" type="image/svg+xml" href="./favicon.svg" />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500;600&family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet" />
+    <link rel="stylesheet" href="./styles.css?v=1" />
+  </head>
+  <body>
+    <header class="site-header">
+      <a class="brand" href="#top"><span class="brand-mark">MW</span><span>Mars Window Commit Workbench</span></a>
+      <nav class="nav">
+        <a href="#problem">Mission</a>
+        <a href="#demo">Demo</a>
+        <a href="#cli">CLI</a>
+        <a href="https://github.com/Abhishek21g/mars-window-workbench">GitHub</a>
+      </nav>
+      <a class="header-action" href="https://github.com/Abhishek21g/mars-window-workbench">View GitHub</a>
+    </header>
+
+    <main id="top">
+      <section class="hero section-shell">
+        <div class="hero-copy">
+          <p class="eyebrow">Multiplanetary · independent demo · not affiliated with SpaceX</p>
+          <h1>Commit the Mars window — or don't.</h1>
+          <p>
+            The impossible question behind Starship: with this fleet, cargo manifest, and Earth–Mars window —
+            do mass, propellant, life-support, and return margins <strong>close before you commit</strong>?
+            Receipt-grade <strong>GO / HOLD / NO-GO</strong> on a laptop.
+          </p>
+          <div class="hero-actions">
+            <a class="button primary" href="#demo">Run live demo</a>
+            <a class="button secondary" href="https://github.com/Abhishek21g/mars-window-workbench">GitHub</a>
+          </div>
+          <dl class="proof-grid">
+            <div><dt>24</dt><dd>passing tests</dd></div>
+            <div><dt>18</dt><dd>commit gates</dd></div>
+            <div><dt>14</dt><dd>tanker launches</dd></div>
+          </dl>
+        </div>
+        <div class="hero-panel">
+          <div class="panel-topline">
+            <div><span class="status-dot"></span> artemis-pathfinder · 2028-short</div>
+            <span class="badge hold" id="heroBadge">HOLD</span>
+          </div>
+          <div class="terminal">
+            <span>$</span>
+            <code>mars-window run --manifest artemis-pathfinder.yaml --window 2028-short.yaml</code>
+          </div>
+          <div class="metric-row">
+            <div><span>LEO propellant</span><strong>2100 t</strong></div>
+            <div><span>TMI margin</span><strong id="heroTmi">—</strong></div>
+            <div><span>Transfer</span><strong>210 d</strong></div>
+          </div>
+        </div>
+      </section>
+
+      <section class="section-shell" id="problem">
+        <h2>The next SpaceX question</h2>
+        <div class="cards">
+          <article>
+            <h3>Mission</h3>
+            <p>Make humanity multiplanetary — Starship, Mars cargo, synodic windows, fleet-scale propellant choreography.</p>
+          </article>
+          <article>
+            <h3>Impossible part</h3>
+            <p>You can't run real mission design on a laptop. You <em>can</em> mock the commit decision: does this window close?</p>
+          </article>
+          <article>
+            <h3>This workbench</h3>
+            <p><code>plan → run → doctor → report</code> on manifest + window + tanker chain. Auditable receipt before the window burns.</p>
+          </article>
+        </div>
+      </section>
+
+      <section class="section-shell demo" id="demo">
+        <div class="demo-head">
+          <h2>Window commit receipt</h2>
+          <div class="demo-actions">
+            <button class="button primary" id="loadSample" type="button">Load Artemis demo</button>
+            <label class="button secondary">Upload receipt<input type="file" id="fileInput" accept=".json" hidden /></label>
+          </div>
+        </div>
+        <div class="demo-grid">
+          <div class="card verdict-card">
+            <h3>Window decision</h3>
+            <div class="verdict" id="verdict">—</div>
+            <p id="scenarioLabel">Load receipt</p>
+            <dl class="counts" id="counts"></dl>
+          </div>
+          <div class="card">
+            <h3>Simulation</h3>
+            <dl class="kv" id="simKv"></dl>
+          </div>
+          <div class="card wide">
+            <h3>Gates</h3>
+            <div id="findings" class="findings"></div>
+          </div>
+        </div>
+      </section>
+
+      <section class="section-shell" id="cli">
+        <h2>CLI</h2>
+        <pre class="cli-block"><code>pip install git+https://github.com/Abhishek21g/mars-window-workbench
+
+mars-window plan  --manifest scenarios/artemis-pathfinder.yaml --window windows/2028-short.yaml --fleet fleets/six-tanker-chain.yaml
+mars-window run   --manifest scenarios/artemis-pathfinder.yaml --window windows/2028-short.yaml --fleet fleets/six-tanker-chain.yaml
+mars-window doctor --receipt out/receipts/&lt;run-id&gt;/receipt.json --json
+mars-window report --receipt out/receipts/&lt;run-id&gt;/receipt.json</code></pre>
+      </section>
+    </main>
+
+    <footer class="section-shell footer">
+      <p>Synthetic physics only. Not affiliated with SpaceX.</p>
+      <a href="https://enaguthi.com/">enaguthi.com</a>
+    </footer>
+    <script src="./app.js" defer></script>
+  </body>
+</html>

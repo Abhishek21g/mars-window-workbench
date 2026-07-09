@@ -1,0 +1,9 @@
+mission_id: cargo-only-demo
+crew_count: 0
+cargo_mass_kg: 42000
+cargo_volume_m3: 400
+life_support_days: 0
+surface_power_kw: 4.0
+isru_water_kg_per_day: 0.0
+return_propellant_fraction: 0.12
+min_surface_days: 30

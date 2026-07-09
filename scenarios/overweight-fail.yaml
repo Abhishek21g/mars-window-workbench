@@ -1,0 +1,9 @@
+mission_id: overweight-fail
+crew_count: 6
+cargo_mass_kg: 165000
+cargo_volume_m3: 900
+life_support_days: 600
+surface_power_kw: 18.0
+isru_water_kg_per_day: 5.0
+return_propellant_fraction: 0.08
+min_surface_days: 500

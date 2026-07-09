@@ -1,0 +1,7 @@
+window_id: missed-window
+departure_utc: "2029-03-01T12:00:00Z"
+window_open_utc: "2028-10-01T00:00:00Z"
+window_close_utc: "2028-12-20T00:00:00Z"
+transfer_days: 210
+tmi_delta_v_mps: 3800
+next_window_days: 780
