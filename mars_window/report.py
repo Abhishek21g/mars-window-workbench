@@ -26,7 +26,7 @@ def render_markdown(receipt: dict[str, Any]) -> str:
         )
     lines.extend([
         "",
-        "_Synthetic demo — public physics envelopes only. Not affiliated with SpaceX._",
+        "_Synthetic demo. Public physics envelopes only. Not affiliated with SpaceX._",
         "",
     ])
     return "\n".join(lines)

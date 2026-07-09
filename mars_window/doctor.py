@@ -316,7 +316,7 @@ def rollup_decision(findings: list[GateFinding]) -> tuple[str, list[GateFinding]
                 category="rollup",
                 severity="FAIL",
                 action="NO-GO",
-                message="Window commit NO-GO — blocking gate fired",
+                message="Window commit NO-GO: blocking gate fired",
             )
         )
     elif has_hold or has_fail:
@@ -327,7 +327,7 @@ def rollup_decision(findings: list[GateFinding]) -> tuple[str, list[GateFinding]
                 category="rollup",
                 severity="WARN",
                 action="HOLD",
-                message="Window commit HOLD — margins require human review",
+                message="Window commit HOLD: margins require human review",
             )
         )
     else:
@@ -338,7 +338,7 @@ def rollup_decision(findings: list[GateFinding]) -> tuple[str, list[GateFinding]
                 category="rollup",
                 severity="PASS",
                 action="GO",
-                message="Window commit GO — all gates pass",
+                message="Window commit GO: all gates pass",
             )
         )
 
