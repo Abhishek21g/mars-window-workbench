@@ -1,5 +1,5 @@
-import { SCENARIOS, GATE_GROUPS, ALL_GATES, STATS } from "./data.js?v=3";
-import { redrawAll } from "./charts.js?v=3";
+import { SCENARIOS, GATE_GROUPS, ALL_GATES, STATS } from "./data.js?v=4";
+import { redrawAll } from "./charts.js?v=4";
 
 const T0 = new Date("2028-11-15T12:00:00Z");
 const PROP_MAX = 2100;
@@ -103,10 +103,12 @@ function buildScenarioTabs() {
     (s, i) => `<button type="button" class="seg-btn${i === 0 ? " active" : ""}" data-id="${s.id}">${s.title.split(" ")[0]}</button>`
   ).join("");
   tabs.querySelectorAll(".seg-btn").forEach((btn) => {
-    btn.addEventListener("click", () => {
+    btn.addEventListener("click", (e) => {
+      e.preventDefault();
       tabs.querySelectorAll(".seg-btn").forEach((b) => b.classList.remove("active"));
       btn.classList.add("active");
       selectScenario(btn.dataset.id);
+      btn.blur();
     });
   });
 }

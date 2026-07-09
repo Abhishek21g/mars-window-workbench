@@ -20,10 +20,10 @@ function c(key) {
 function setupCanvas(canvas, height = 280) {
   const dpr = window.devicePixelRatio || 1;
   const rect = canvas.parentElement.getBoundingClientRect();
-  const w = Math.max(rect.width - 2, 280);
-  canvas.width = w * dpr;
-  canvas.height = height * dpr;
-  canvas.style.width = `${w}px`;
+  const w = Math.max(Math.floor(rect.width), 1);
+  canvas.width = Math.floor(w * dpr);
+  canvas.height = Math.floor(height * dpr);
+  canvas.style.width = "100%";
   canvas.style.height = `${height}px`;
   const ctx = canvas.getContext("2d");
   ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
