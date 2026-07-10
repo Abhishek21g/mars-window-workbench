@@ -1,5 +1,5 @@
-import { SCENARIOS, GATE_GROUPS, ALL_GATES, STATS } from "./data.js?v=5";
-import { redrawAll, drawFillLine } from "./charts.js?v=5";
+import { SCENARIOS, GATE_GROUPS, ALL_GATES, STATS } from "./data.js?v=6";
+import { redrawAll, drawFillLine } from "./charts.js?v=6";
 
 const T0 = new Date("2028-11-15T12:00:00Z");
 const PROP_MAX = 2100;
@@ -378,6 +378,7 @@ document.addEventListener("DOMContentLoaded", () => {
   initTimeline();
   updateCountdown();
   selectScenario(SCENARIOS[0].id);
+  requestAnimationFrame(() => redrawAll(SCENARIOS, activeScenario, GATE_GROUPS));
 
   document.getElementById("runSim")?.addEventListener("click", runSimulation);
 
